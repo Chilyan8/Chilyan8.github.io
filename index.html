@@ -89,7 +89,16 @@ body::before {
     
   </style>
 </head>
+  
+  <!-- Musique de fond -->
+  <audio id="bgMusic" src="musique.mp3" autoplay loop></audio>
+  <script>
+    const bgMusic = document.getElementById("bgMusic");
+    bgMusic.volume = 0.2;
+  </script>
+</body>
 
+  
 <body>
 
   <h1 id="question">Tu veux être ma Valentine ? 💖</h1>
@@ -140,5 +149,6 @@ body::before {
 
 </body>
 </html>
+
 
 
