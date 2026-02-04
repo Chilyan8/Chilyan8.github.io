@@ -4,12 +4,32 @@
   <meta charset="UTF-8">
   <title>💘 Microbe demande de Valentine ?</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #ffe6ea;
-      text-align: center;
-      padding-top: 50px;
-    }
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  padding-top: 50px;
+
+  background-image: url("hearts-bg.png");
+  background-size: cover;
+  background-repeat: repeat;
+  background-position: center;
+
+  position: relative;
+}
+
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 230, 234, 0.7);
+  z-index: 0;
+}
+
+
 
     h1 {
       color: #d6336c;
@@ -61,6 +81,12 @@
       border-radius: 10px;
       font-size: 18px;
     }
+
+    body > * {
+  position: relative;
+  z-index: 1;
+}
+    
   </style>
 </head>
 
@@ -114,4 +140,5 @@
 
 </body>
 </html>
+
 
