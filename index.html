@@ -69,16 +69,16 @@
   <h1 id="question">Tu veux être ma Valentine ? 💖</h1>
 
   <!-- GIF DE DÉPART -->
-  <img id="mainGif" src="kiss.gif" alt="love">
+  <img id="mainGif" src="kiss.gif" alt="love gif">
 
   <div class="buttons">
-    <button id="yesBtn">Oui mon petit microbe d'amour</button>
-    <button id="noBtn">Non </button>
+    <button id="yesBtn">Oui mon petit microbe d'amour 💚</button>
+    <button id="noBtn">Non 💔</button>
   </div>
 
-  <!-- CONTENU FINAL -->
+  <!-- CONTENU FINAL (IMAGE + CADEAU) -->
   <div id="gift">
-    <img src="TON_GIF_FINAL.gif" alt="happy gif">
+    <img src="final.jpg" alt="image finale">
     <br>
     <a href="TON_LIEN_NITRO_DISCORD" target="_blank">
       🎁 Clique ici pour ton cadeau
@@ -95,7 +95,6 @@
 
     noBtn.addEventListener("click", () => {
       noClicks++;
-
       question.textContent = "T'es sûr" + "?".repeat(noClicks);
 
       const yesSize = 20 + noClicks * 6;
@@ -115,5 +114,3 @@
 
 </body>
 </html>
-
-
