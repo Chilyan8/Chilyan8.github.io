@@ -85,7 +85,7 @@
     font-size: 18px;
   }
 
-  /* Cœurs qui suivent la souris */
+  /* Cœurs souris */
   .heart {
     position: absolute;
     width: 20px;
@@ -96,7 +96,7 @@
     z-index: 2;
   }
 
-  /* Cœurs au clic sur Oui */
+  /* Cœurs clic Oui */
   .heart-big {
     position: absolute;
     width: 40px;
@@ -125,12 +125,27 @@
     border-radius: 50%;
     z-index: 3;
   }
+
+  /* Bouton pour lancer la musique si besoin */
+  #playMusicBtn {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ff4d6d;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    z-index: 10;
+  }
 </style>
 </head>
 <body>
 
 <h1 id="question">Tu veux être ma Valentine ? 💖</h1>
-
 <img id="mainGif" src="kiss.gif" alt="love gif">
 
 <div class="buttons">
@@ -148,94 +163,94 @@
 
 <!-- Musique de fond -->
 <audio id="bgMusic" src="musique.mp3" loop></audio>
+<button id="playMusicBtn">▶️ Lancer la musique</button>
 
 <script>
-  const bgMusic = document.getElementById("bgMusic");
-  const question = document.getElementById("question");
-  const yesBtn = document.getElementById("yesBtn");
-  const noBtn = document.getElementById("noBtn");
-  const gift = document.getElementById("gift");
-  const mainGif = document.getElementById("mainGif");
-  let noClicks = 0;
-  let musicStarted = false;
+const bgMusic = document.getElementById("bgMusic");
+const playMusicBtn = document.getElementById("playMusicBtn");
+const question = document.getElementById("question");
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+const gift = document.getElementById("gift");
+const mainGif = document.getElementById("mainGif");
+let noClicks = 0;
 
-  // Lancer la musique au premier clic
-  function startMusic() {
-    if(!musicStarted){
-      bgMusic.volume = 0.2;
-      bgMusic.play();
-      musicStarted = true;
-    }
-  }
+// Essayer de jouer la musique automatiquement
+bgMusic.volume = 0.2;
+bgMusic.play().catch(()=>{ playMusicBtn.style.display = "block"; });
 
-  // Bouton Non
-  noBtn.addEventListener("click", () => {
-    startMusic();
-    noClicks++;
-    question.textContent = "T'es sûr" + "?".repeat(noClicks);
-    yesBtn.style.fontSize = (20 + noClicks * 6) + "px";
-    noBtn.style.fontSize = Math.max(10, 20 - noClicks * 2) + "px";
-  });
+// Bouton pour lancer la musique si bloquée
+playMusicBtn.addEventListener("click",()=>{
+  bgMusic.play();
+  playMusicBtn.style.display="none";
+});
 
-  // Bouton Oui
-  yesBtn.addEventListener("click", () => {
-    startMusic();
-    question.textContent = "Je t'aime mon microbe d'amour ! 💘";
-    mainGif.style.display = "none";
-    document.querySelector(".buttons").style.display = "none";
-    gift.style.display = "block";
-    createConfetti();
-    createHeartsBig(10); // 10 cœurs un peu plus gros
-  });
+// Bouton Non
+noBtn.addEventListener("click", () => {
+  noClicks++;
+  question.textContent = "T'es sûr" + "?".repeat(noClicks);
+  yesBtn.style.fontSize = (20 + noClicks * 6) + "px";
+  noBtn.style.fontSize = Math.max(10, 20 - noClicks * 2) + "px";
+});
 
-  // Cœurs qui suivent la souris
-  document.addEventListener("mousemove", e => {
-    const heart = document.createElement("div");
-    heart.className = "heart";
-    heart.style.left = e.pageX + "px";
-    heart.style.top = e.pageY + "px";
+// Bouton Oui
+yesBtn.addEventListener("click", () => {
+  question.textContent = "Je t'aime mon microbe d'amour ! 💘";
+  mainGif.style.display = "none";
+  document.querySelector(".buttons").style.display = "none";
+  gift.style.display = "block";
+  createConfetti();
+  createHeartsBig(10);
+});
+
+// Cœurs souris
+document.addEventListener("mousemove", e => {
+  const heart = document.createElement("div");
+  heart.className = "heart";
+  heart.style.left = e.pageX + "px";
+  heart.style.top = e.pageY + "px";
+  document.body.appendChild(heart);
+  setTimeout(()=>heart.remove(),1000);
+});
+
+// Cœurs clic Oui
+function createHeartsBig(count){
+  for(let i=0;i<count;i++){
+    const heart=document.createElement("div");
+    heart.className="heart-big";
+    heart.style.left = (window.innerWidth/2 + (Math.random()*200 - 100)) + "px";
+    heart.style.top = (window.innerHeight/2 + (Math.random()*50 - 25)) + "px";
     document.body.appendChild(heart);
-    setTimeout(() => heart.remove(), 1000);
-  });
-
-  // Cœurs gros au clic sur Oui
-  function createHeartsBig(count){
-    for(let i=0;i<count;i++){
-      const heart = document.createElement("div");
-      heart.className = "heart-big";
-      heart.style.left = (window.innerWidth/2 + (Math.random()*200 - 100)) + "px";
-      heart.style.top = (window.innerHeight/2 + (Math.random()*50 - 25)) + "px";
-      document.body.appendChild(heart);
-      setTimeout(() => heart.remove(), 1200);
-    }
+    setTimeout(()=>heart.remove(),1200);
   }
+}
 
-  // Confettis
-  function createConfetti() {
-    for (let i = 0; i < 30; i++) { // quantité modérée
-      const confetti = document.createElement("div");
-      confetti.className = "confetti";
-      confetti.style.background = ["#ff4d6d","#ffd700","#ff69b4","#2ecc71"][Math.floor(Math.random()*4)];
-      confetti.style.left = Math.random() * window.innerWidth + "px";
-      confetti.style.top = Math.random() * window.innerHeight + "px";
-      document.body.appendChild(confetti);
+// Confettis
+function createConfetti(){
+  for(let i=0;i<30;i++){
+    const confetti=document.createElement("div");
+    confetti.className="confetti";
+    confetti.style.background=["#ff4d6d","#ffd700","#ff69b4","#2ecc71"][Math.floor(Math.random()*4)];
+    confetti.style.left=Math.random()*window.innerWidth+"px";
+    confetti.style.top=Math.random()*window.innerHeight+"px";
+    document.body.appendChild(confetti);
 
-      let top = parseInt(confetti.style.top);
-      let left = parseInt(confetti.style.left);
+    let top=parseInt(confetti.style.top);
+    let left=parseInt(confetti.style.left);
 
-      const interval = setInterval(() => {
-        top += Math.random() * 5;
-        left += (Math.random() - 0.5) * 3;
-        confetti.style.top = top + "px";
-        confetti.style.left = left + "px";
-        confetti.style.opacity -= 0.02;
-        if (confetti.style.opacity <= 0) {
-          clearInterval(interval);
-          confetti.remove();
-        }
-      }, 20);
-    }
+    const interval=setInterval(()=>{
+      top+=Math.random()*5;
+      left+=(Math.random()-0.5)*3;
+      confetti.style.top=top+"px";
+      confetti.style.left=left+"px";
+      confetti.style.opacity-=0.02;
+      if(confetti.style.opacity<=0){
+        clearInterval(interval);
+        confetti.remove();
+      }
+    },20);
   }
+}
 </script>
 
 </body>
